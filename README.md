@@ -1,2 +1,2 @@
-# email_homework_back
+# Script to email graded homework assignments back to students
  
