@@ -8,30 +8,40 @@ import json
 # student name, id, and email
 student_info = pd.read_csv('student_info.csv')
 student_info = student_info.assign(student=student_info.Student,
-                                   id=student_info.ID,
+                                   id=student_info.ID.astype(int),
                                    email=student_info['E-mail Address'])[['student', 'id', 'email']]
-# grade homework
-hw_files = os.listdir('homework')
-# SMTP server info
+###student_info = pd.DataFrame(data=[['Zhan Li', 1234567, 'z.li@uwinnipeg.ca']], columns=['student', 'id', 'email'])
+#------------------------------------
+# initialize parameters
+## grade homework folder
+hw_dir = 'homework/'
+###hw_dir = 'homework_test/'
+## SMTP server info
 with open('secret.json') as f:
     secret = json.load(f)
 sender_email = secret['sender_email']
 sender_password = secret['sender_password']
 host = "smtp.aol.com"
 port = 465
+## pause time betwee loops
+time_pause = 60
+#------------------------------------
 # loop through graded homework and send email
-for hw_file in hw_files:
+for hw_file in os.listdir(hw_dir):
     try:
         student_no = int(re.findall('[0-9]{7}', hw_file)[0])
         name = student_info.loc[student_info.id == student_no, 'student'].values[0]
         email = student_info.loc[student_info.id == student_no, 'email'].values[0]
-        subject = 'Your graded homework/exam'
+        subject = 'Your graded homework'
         body = 'Hi, ' + name + \
-               "\n\n A graded item (homework or exam) is attached.\n\n" \
+               "\n\n You followed the insturction to correctly name your" \
+               "homework, and my Python program succesfully matched your homework with your email address." \
+               "Your graded homework is thus attached.\n\n" \
                "Please don't reply to this email. " \
                "It is not moniotored and only serves as an email server.\n\n" \
                + "Zhan Li"
-        funcs.send_email(email, subject, body, 'homework/' + hw_file, sender_email, sender_password, host, port)
+        funcs.send_email(email, subject, body, hw_dir + hw_file, sender_email, sender_password, host, port)
+        print(f'Email sucessfully sent to {name}!')
     except IndexError as e:
         print(e)
-    time.sleep(60)
+    time.sleep(time_pause)
