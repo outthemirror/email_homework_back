@@ -5,6 +5,7 @@ import re
 import time
 import json
 import random
+import smtplib
 
 # student name, id, and email
 student_info = pd.read_csv('student_info.csv')
@@ -43,6 +44,6 @@ for hw_file in os.listdir(hw_dir):
                + "Zhan Li"
         funcs.send_email(email, subject, body, hw_dir + hw_file, sender_email, sender_password, host, port)
         print(f'Email sucessfully sent to {name}!')
-    except IndexError as e:
+    except (IndexError, smtplib.SMTPSenderRefused) as e:
         print(e)
     time.sleep(time_pause)
