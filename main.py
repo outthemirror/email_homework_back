@@ -4,6 +4,7 @@ import os
 import re
 import time
 import json
+import random
 
 # student name, id, and email
 student_info = pd.read_csv('student_info.csv')
@@ -24,7 +25,7 @@ sender_password = secret['sender_password']
 host = "smtp.aol.com"
 port = 465
 ## pause time betwee loops
-time_pause = 60
+time_pause = random.randrange(30, 90)
 #------------------------------------
 # loop through graded homework and send email
 for hw_file in os.listdir(hw_dir):
@@ -34,7 +35,7 @@ for hw_file in os.listdir(hw_dir):
         email = student_info.loc[student_info.id == student_no, 'email'].values[0]
         subject = 'Your graded homework'
         body = 'Hi, ' + name + \
-               "\n\n You followed the insturction to correctly name your" \
+               "\n\n You followed the insturction to correctly name your " \
                "homework, and my Python program succesfully matched your homework with your email address." \
                "Your graded homework is thus attached.\n\n" \
                "Please don't reply to this email. " \
