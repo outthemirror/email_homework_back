@@ -12,12 +12,10 @@ student_info = pd.read_csv('student_info.csv')
 student_info = student_info.assign(student=student_info.Student,
                                    id=student_info.ID.astype(int),
                                    email=student_info['E-mail Address'])[['student', 'id', 'email']]
-###student_info = pd.DataFrame(data=[['Zhan Li', 1234567, 'z.li@uwinnipeg.ca']], columns=['student', 'id', 'email'])
 #------------------------------------
 # initialize parameters
 ## grade homework folder
 hw_dir = 'homework/'
-###hw_dir = 'homework_test/'
 ## SMTP server info
 with open('secret.json') as f:
     secret = json.load(f)
