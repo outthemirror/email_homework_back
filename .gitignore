@@ -25,3 +25,5 @@ homework/.DS_Store
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/email_homework_back.iml
+*.jpeg
+homework/Icon
