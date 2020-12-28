@@ -32,15 +32,16 @@ for hw_file in os.listdir(hw_dir):
         student_no = int(re.findall('[0-9]{7}', hw_file)[0])
         name = student_info.loc[student_info.id == student_no, 'student'].values[0]
         email = student_info.loc[student_info.id == student_no, 'email'].values[0]
-        subject = 'Your graded homework'
+        subject = 'Your graded final exam'
         body = 'Hi, ' + name + \
-               "\n\n You followed the insturction to correctly name your " \
-               "homework, and my Python program succesfully matched your homework with your email address." \
-               "Your graded homework is thus attached.\n\n" \
+               "\n\n Your graded exam is attached.\n\n" \
+                "Note that I gave you an incorrect version of Problem 4 in the final exam." \
+               "Thus, you have got 16 points to compensate your points lost in Problem 4, which is added" \
+               " in Nexus final exam grade. \n\n"\
                "Please don't reply to this email. " \
                "It is not moniotored and only serves as an email server.\n\n" \
                + "Zhan Li"
-        funcs.send_email(email, subject, body, hw_dir + hw_file, sender_email, sender_password, host, port)
+        funcs.send_email(email, subject, body, sender_email, sender_password, host, port, filename=hw_dir + hw_file)
         print(f'Email sucessfully sent to {name}!')
     except (IndexError, smtplib.SMTPSenderRefused) as e:
         print(e)
